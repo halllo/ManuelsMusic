@@ -5,16 +5,34 @@
 			 xmlns:local="clr-namespace:ManuelsMusic"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             mc:Ignorable="d" 
-             d:DesignHeight="600" d:DesignWidth="600">
-	
+             mc:Ignorable="d">
+
 	<Grid.ColumnDefinitions>
 		<ColumnDefinition Width="Auto"/>
 		<ColumnDefinition Width="*"/>
 	</Grid.ColumnDefinitions>
 
+	<Grid Grid.Column="0" Grid.ColumnSpan="2" Background="Black" Width="1900" Height="1080">
+		<s:SurfaceScrollViewer HorizontalScrollBarVisibility="Disabled">
+			<ItemsControl ItemsSource="{Binding Items}">
+				<ItemsControl.ItemsPanel>
+					<ItemsPanelTemplate>
+						<WrapPanel />
+					</ItemsPanelTemplate>
+				</ItemsControl.ItemsPanel>
+				<ItemsControl.ItemTemplate>
+					<DataTemplate>
+						<s:SurfaceButton Width="100" Height="100" Command="{Binding Oeffnen}" BorderThickness="0" Margin="0" Padding="0">
+							<Image Source="{Binding Bild}" Stretch="UniformToFill" Width="100" Height="100"/>
+						</s:SurfaceButton>
+					</DataTemplate>
+				</ItemsControl.ItemTemplate>
+			</ItemsControl>
+		</s:SurfaceScrollViewer>
+	</Grid>
+
 	<Grid Grid.Column="0">
-		<TextBlock Text="ManuelsMusic V1 😀 😎" TextWrapping="NoWrap" Foreground="Magenta" Margin="10,20,0,0">
+		<TextBlock Text="ManuelsMusic V1 😀" TextWrapping="NoWrap" Foreground="Magenta" Margin="10,20,0,0">
 			<TextBlock.LayoutTransform >
 				<TransformGroup>
 					<ScaleTransform/>
@@ -26,11 +44,18 @@
 		</TextBlock>
 	</Grid>
 
-	<Canvas Grid.Column="1" Background="Black"
-						  x:Name="TrackingCanvasLayer" x:FieldModifier="public">
-
-		<Rectangle Width="200" Height="200" Stroke="Blue" StrokeThickness="2" Margin="300"/>
-
-	</Canvas>
+	<s:ScatterView Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" x:Name="ScatterViewOverlay" x:FieldModifier="public">
+		<s:ScatterViewItem Background="Lime" Width="150" Height="150">
+			<Grid>
+				<Grid.RowDefinitions>
+					<RowDefinition Height="Auto"/>
+					<RowDefinition Height="Auto"/>
+					<RowDefinition/>
+				</Grid.RowDefinitions>
+				<Label Content="Songs" Foreground="Black" />
+				<Label Grid.Row="1" Content="{Binding SelectedItem.Name}" Foreground="Black" />
+			</Grid>
+		</s:ScatterViewItem>
+	</s:ScatterView>
 
 </Grid>
