@@ -59,7 +59,7 @@ namespace Scanner
 				//Console.WriteLine($"{songs.GroupBy(s => s.Artist).Count()} artists");
 
 
-				var albums = songs.GroupBy(s => new { s.AlbumArtists, s.Album, s.AlbumArt });
+				var albums = songs.Where(s => !s.File.StartsWith("AudioBooks\\")).GroupBy(s => new { s.AlbumArtists, s.Album, s.AlbumArt });
 				foreach (var album in albums)
 				{
 					Console.ForegroundColor = ConsoleColor.Cyan;

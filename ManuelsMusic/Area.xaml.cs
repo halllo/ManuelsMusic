@@ -41,11 +41,12 @@ namespace ManuelsMusic
 						File = d.Value
 					})
 					.Where(song => !song.File.StartsWith("AudioBooks\\"))
+					.OrderBy(song => song.AlbumArtists).ThenBy(song => song.Album)
 					.ToList();
 
 				var albums = songs.GroupBy(s => new { s.AlbumArtists, s.Album, s.AlbumArt });
 				Items = albums
-					.Select(album => new Item(this, album.Key.AlbumArtists + " - " + album.Key.Album, album.Key.AlbumArt, album))
+					.Select(album => new Item(this, album.Key.Album, album.Key.AlbumArtists, album.Key.AlbumArt, album))
 					.ToList();
 			}
 		}
@@ -59,15 +60,20 @@ namespace ManuelsMusic
 		public string Name { get; private set; }
 		public ImageSource Bild { get; private set; }
 		public Command Oeffnen { get; private set; }
-		public IEnumerable<Song> Songs { get; set; }
+
+		public string Album { get; private set; }
+		public string AlbumArtist { get; private set; }
+		public IEnumerable<Song> Songs { get; private set; }
 
 		AreaViewModel _Container;
 
-		public Item(AreaViewModel container, string name, string image, IEnumerable<Song> songs)
+		public Item(AreaViewModel container, string album, string albumartists, string image, IEnumerable<Song> songs)
 		{
 			_Container = container;
 
-			Name = name;
+			Album = album;
+			AlbumArtist = albumartists;
+			Name = albumartists + " - " + album;
 			Songs = songs;
 			Bild = new BitmapImage(new System.Uri("pack://application:,,,/Images/" + (image ?? "no_albumart.jpg")));
 			Oeffnen = new Command(o =>

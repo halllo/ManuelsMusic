@@ -45,15 +45,28 @@
 	</Grid>
 
 	<s:ScatterView Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" x:Name="ScatterViewOverlay" x:FieldModifier="public">
-		<s:ScatterViewItem Background="Lime" Width="150" Height="150">
-			<Grid>
+		<s:ScatterViewItem Background="Black" MinWidth="400" MinHeight="600" MaxWidth="400" MaxHeight="600">
+			<Grid Width="400" Height="600">
 				<Grid.RowDefinitions>
 					<RowDefinition Height="Auto"/>
 					<RowDefinition Height="Auto"/>
+					<RowDefinition Height="1"/>
 					<RowDefinition/>
 				</Grid.RowDefinitions>
-				<Label Content="Songs" Foreground="Black" />
-				<Label Grid.Row="1" Content="{Binding SelectedItem.Name}" Foreground="Black" />
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition/>
+					<ColumnDefinition/>
+				</Grid.ColumnDefinitions>
+				<Image Grid.RowSpan="3" Source="{Binding SelectedItem.Bild}" Stretch="UniformToFill" Width="200" Height="200" />
+				<Label Grid.Column="1" Content="{Binding SelectedItem.Album}" Foreground="White" FontSize="20" Margin="0,10,0,0" />
+				<Label Grid.Column="1" Grid.Row="1" Content="{Binding SelectedItem.AlbumArtist}" Foreground="White" FontSize="16" />
+				<s:SurfaceListBox Grid.Row="3" Grid.ColumnSpan="2" ItemsSource="{Binding SelectedItem.Songs}" Height="400">
+					<s:SurfaceListBox.ItemTemplate>
+						<DataTemplate>
+							<TextBlock Text="{Binding Title}" FontSize="16"/>
+						</DataTemplate>
+					</s:SurfaceListBox.ItemTemplate>
+				</s:SurfaceListBox>
 			</Grid>
 		</s:ScatterViewItem>
 	</s:ScatterView>
