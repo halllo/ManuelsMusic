@@ -23,6 +23,7 @@ namespace Scanner
 					new XElement("songs",
 						songs.Select(song => new XElement("song",
 							song.Artist != null ? new XAttribute("artist", song.Artist) : null,
+							song.AlbumArtists != null ? new XAttribute("albumartists", song.AlbumArtists) : null,
 							song.Album != null ? new XAttribute("album", song.Album) : null,
 							song.AlbumArt != null ? new XAttribute("cover", song.AlbumArt) : null,
 							song.Title != null ? new XAttribute("title", song.Title) : null,
@@ -42,6 +43,7 @@ namespace Scanner
 					{
 						Artist = d.Attribute("artist")?.Value,
 						Album = d.Attribute("album")?.Value,
+						AlbumArtists = d.Attribute("albumartists")?.Value,
 						AlbumArt = d.Attribute("cover")?.Value,
 						Title = d.Attribute("title")?.Value,
 						File = d.Value
@@ -57,11 +59,11 @@ namespace Scanner
 				//Console.WriteLine($"{songs.GroupBy(s => s.Artist).Count()} artists");
 
 
-				var albums = songs.GroupBy(s => new { s.Artist, s.Album, s.AlbumArt });
+				var albums = songs.GroupBy(s => new { s.AlbumArtists, s.Album, s.AlbumArt });
 				foreach (var album in albums)
 				{
 					Console.ForegroundColor = ConsoleColor.Cyan;
-					Console.Write($"{album.Key.Artist} - {album.Key.Album}");
+					Console.Write($"{album.Key.AlbumArtists} - {album.Key.Album}");
 					Console.ForegroundColor = ConsoleColor.DarkGray;
 					Console.WriteLine($" ({album.Key.AlbumArt})");
 					Console.ResetColor();
@@ -137,6 +139,7 @@ namespace Scanner
 				{
 					var tag = mp3Id3.GetTag(Id3.Id3TagFamily.FileStartTag);
 					var artist = tag?.Artists.Value;
+					var albumArtists = string.Join(", ", mp3tagLib.Tag.AlbumArtists);
 					var album = tag?.Album.Value ?? string.Empty;
 					var title = tag?.Title.Value;
 
@@ -157,6 +160,7 @@ namespace Scanner
 						File = file.Replace(directory, ""),
 						Artist = artist,
 						Album = album,
+						AlbumArtists = albumArtists,
 						AlbumArt = albumArtFilename,
 						Title = title
 					});
@@ -172,6 +176,7 @@ namespace Scanner
 		public string File { get; set; }
 		public string Artist { get; set; }
 		public string Album { get; set; }
+		public string AlbumArtists { get; set; }
 		public string AlbumArt { get; set; }
 		public string Title { get; set; }
 	}

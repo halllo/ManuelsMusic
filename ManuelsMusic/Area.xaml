@@ -32,7 +32,7 @@
 	</Grid>
 
 	<Grid Grid.Column="0">
-		<TextBlock Text="ManuelsMusic V1 😀" TextWrapping="NoWrap" Foreground="Magenta" Margin="10,20,0,0">
+		<TextBlock Text="ManuelsMusic V1" TextWrapping="NoWrap" Foreground="Magenta" Margin="10,20,0,0">
 			<TextBlock.LayoutTransform >
 				<TransformGroup>
 					<ScaleTransform/>
